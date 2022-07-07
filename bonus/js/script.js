@@ -88,7 +88,7 @@ images.forEach((image, i) => {
 })
 carouselIndex.innerHTML = itemsCarouselIndex;
 
-// # Partenza carousel e gestione del medesiomo con i bottoni 
+// # Partenza carousel
 
 //recupero gli elementi per aggiungervi la classe active
 const imageMain = document.querySelectorAll('.carousel-image');
@@ -99,13 +99,9 @@ let currentI = 0;
 imageMain[currentI].classList.add('active');
 imageIndex[currentI].classList.add('active');
 
-// recupero i bottoni
-const btnRight = document.getElementById('right-btn');
-const btnLeft = document.getElementById('left-btn');
+// # Gestione carousel con timing 
 
-// Aggiungo l'evento ai bottoni
-
-btnRight.addEventListener("click", ()=>{
+let imagesChange = setInterval(()=>{
 
   imageMain[currentI].classList.remove('active');
   imageIndex[currentI].classList.remove('active');
@@ -119,10 +115,56 @@ btnRight.addEventListener("click", ()=>{
   imageMain[currentI].classList.add('active');
   imageIndex[currentI].classList.add('active');
 
+}, 3000)
+
+//# Gestione carousel con bottoni
+
+// recupero i bottoni
+const btnRight = document.getElementById('right-btn');
+const btnLeft = document.getElementById('left-btn');
+
+// Aggiungo l'evento ai bottoni
+
+btnRight.addEventListener("click", ()=>{
+
+  clearInterval(imagesChange);
+
+  imageMain[currentI].classList.remove('active');
+  imageIndex[currentI].classList.remove('active');
+
+  currentI++
+
+  if (currentI == images.length) {
+    currentI = 0;
+  }
+
+  imageMain[currentI].classList.add('active');
+  imageIndex[currentI].classList.add('active');
+
+  // faccio ripartire l'intervallo averlo resettato al click sul bottone
+
+  imagesChange = setInterval(()=>{
+
+    imageMain[currentI].classList.remove('active');
+    imageIndex[currentI].classList.remove('active');
+  
+    currentI++
+  
+    if (currentI == images.length) {
+      currentI = 0;
+    }
+  
+    imageMain[currentI].classList.add('active');
+    imageIndex[currentI].classList.add('active');
+  
+  }, 3000)
 
 })
 
 btnLeft.addEventListener("click", ()=>{
+
+  clearInterval(imagesChange);
+
   imageMain[currentI].classList.remove('active');
   imageIndex[currentI].classList.remove('active');
 
@@ -134,6 +176,24 @@ btnLeft.addEventListener("click", ()=>{
 
   imageMain[currentI].classList.add('active');
   imageIndex[currentI].classList.add('active');
+
+  // faccio ripartire l'intervallo averlo resettato al click sul bottone
+
+  imagesChange = setInterval(()=>{
+
+    imageMain[currentI].classList.remove('active');
+    imageIndex[currentI].classList.remove('active');
+  
+    currentI++
+  
+    if (currentI == images.length) {
+      currentI = 0;
+    }
+  
+    imageMain[currentI].classList.add('active');
+    imageIndex[currentI].classList.add('active');
+  
+  }, 3000)
 
 })
 
@@ -152,19 +212,3 @@ imageIndex.forEach((thumbnail, index)=>{
     currentI=index;
   })
 })
-
-const imagesChange = setInterval(()=>{
-
-  imageMain[currentI].classList.remove('active');
-  imageIndex[currentI].classList.remove('active');
-
-  currentI++
-
-  if (currentI == images.length) {
-    currentI = 0;
-  }
-
-  imageMain[currentI].classList.add('active');
-  imageIndex[currentI].classList.add('active');
-
-}, 3000)

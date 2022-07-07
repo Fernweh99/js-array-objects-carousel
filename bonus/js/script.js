@@ -1,7 +1,10 @@
 /*
-# Milestone 1:
-Ora rimuoviamo i contenuti statici e usiamo l’array di oggetti letterali per popolare dinamicamente il carosello.
-Al click dell’utente sulle frecce verso sinistra o destra, l’immagine attiva diventerà visibile e dovremo aggiungervi titolo e testo.
+## BONUS 1:
+Aggiungere le thumbnails (sottoforma di miniatura) ed al click attivare l’immagine corrispondente.
+## BONUS 2:
+Aggiungere funzionalità di autoplay: dopo un certo periodo di tempo (3 secondi) l’immagine attiva dovrà cambiare alla successiva.
+## BONUS 3:
+Aggiungere bottoni di start/stop e di inversione del meccanismo di autoplay.
 */
 
 
@@ -102,6 +105,7 @@ const btnLeft = document.getElementById('left-btn');
 
 // Aggiungo l'evento ai bottoni
 btnRight.addEventListener("click", ()=>{
+  
   imageMain[currentI].classList.remove('active');
   imageIndex[currentI].classList.remove('active');
 
@@ -123,10 +127,26 @@ btnLeft.addEventListener("click", ()=>{
   currentI--
 
   if (currentI < 0) {
-    currentI = 4;
+    currentI = images.length - 1;
   }
 
   imageMain[currentI].classList.add('active');
   imageIndex[currentI].classList.add('active');
 
+})
+
+// # Thumbnails
+imageIndex.forEach((thumbnail, index)=>{
+  thumbnail.addEventListener("click", ()=>{
+
+    for (let i=0; i < images.length; i++) {
+      imageIndex[i].classList.remove('active');
+      imageMain[i].classList.remove('active')
+    }
+
+    thumbnail.classList.add('active');
+    imageMain[index].classList.add('active');
+    
+    currentI=index;
+  })
 })

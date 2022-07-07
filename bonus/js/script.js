@@ -104,8 +104,9 @@ const btnRight = document.getElementById('right-btn');
 const btnLeft = document.getElementById('left-btn');
 
 // Aggiungo l'evento ai bottoni
+
 btnRight.addEventListener("click", ()=>{
-  
+
   imageMain[currentI].classList.remove('active');
   imageIndex[currentI].classList.remove('active');
 
@@ -117,6 +118,7 @@ btnRight.addEventListener("click", ()=>{
 
   imageMain[currentI].classList.add('active');
   imageIndex[currentI].classList.add('active');
+
 
 })
 
@@ -150,3 +152,19 @@ imageIndex.forEach((thumbnail, index)=>{
     currentI=index;
   })
 })
+
+const imagesChange = setInterval(()=>{
+
+  imageMain[currentI].classList.remove('active');
+  imageIndex[currentI].classList.remove('active');
+
+  currentI++
+
+  if (currentI == images.length) {
+    currentI = 0;
+  }
+
+  imageMain[currentI].classList.add('active');
+  imageIndex[currentI].classList.add('active');
+
+}, 3000)

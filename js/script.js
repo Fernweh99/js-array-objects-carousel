@@ -1,9 +1,30 @@
 /*
-# Milstone 0:
-Come nel primo carosello realizzato, focalizziamoci prima sulla creazione
-del markup statico: costruiamo il container e inseriamo
-l’immagine grande in modo da poter stilare lo slider.
+# Milestone 1:
+Ora rimuoviamo i contenuti statici e usiamo l’array di oggetti letterali per popolare dinamicamente il carosello.
+Al click dell’utente sulle frecce verso sinistra o destra, l’immagine attiva diventerà visibile e dovremo aggiungervi titolo e testo.
 */
+
+
+// # Function
+
+const createImageCarousel = (image, i, boolean) => {
+  let itemsCarousel = "";
+
+  if (boolean) {
+    itemsCarousel = `
+    <div class="carousel-image">
+    <img src="${image.url}" alt="image-${i}">
+    <h3 class="title-image">${image.title}</h3>
+    <p class="description-image">${image.description}</p>
+    </div>`
+    
+  } else {
+    itemsCarousel = `
+    <img src="${image.url}" alt="image-${i}">`
+  }
+
+  return itemsCarousel;
+}
 
 const images = [
   {
@@ -39,3 +60,73 @@ const images = [
       'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Et temporibus voluptatum suscipit tempore aliquid deleniti aut veniam.',
   },
 ];
+
+// # Creazione dei file da inserire nel DOM
+
+const carouselMain = document.getElementById('carousel-main'); 
+const carouselIndex = document.getElementById('carousel-index');
+// mi preparo per stampare le immagini principali del carousel
+let itemsCarouselMain = "";
+
+images.forEach((image, i) => {
+
+  itemsCarouselMain += createImageCarousel(image, i, true);
+
+})
+carouselMain.innerHTML = itemsCarouselMain;
+
+//mi preparo per stampare le immagini index del carousel
+let itemsCarouselIndex = "";
+
+images.forEach((image, i) => {
+
+  itemsCarouselIndex += createImageCarousel(image, i, false);
+
+})
+carouselIndex.innerHTML = itemsCarouselIndex;
+
+// # Partenza carousel e gestione del medesiomo con i bottoni 
+
+//recupero gli elementi per aggiungervi la classe active
+const imageMain = document.querySelectorAll('.carousel-image');
+const imageIndex = document.querySelectorAll('#carousel-index img')
+
+let currentI = 0;
+
+imageMain[currentI].classList.add('active');
+imageIndex[currentI].classList.add('active');
+
+// recupero i bottoni
+const btnRight = document.getElementById('right-btn');
+const btnLeft = document.getElementById('left-btn');
+
+// Aggiungo l'evento ai bottoni
+btnRight.addEventListener("click", ()=>{
+  imageMain[currentI].classList.remove('active');
+  imageIndex[currentI].classList.remove('active');
+
+  currentI++
+
+  if (currentI == images.length) {
+    currentI = 0;
+  }
+
+  imageMain[currentI].classList.add('active');
+  imageIndex[currentI].classList.add('active');
+
+})
+
+btnLeft.addEventListener("click", ()=>{
+  imageMain[currentI].classList.remove('active');
+  imageIndex[currentI].classList.remove('active');
+
+  currentI--
+
+  if (currentI < 0) {
+    currentI = 4;
+  }
+
+  imageMain[currentI].classList.add('active');
+  imageIndex[currentI].classList.add('active');
+
+})

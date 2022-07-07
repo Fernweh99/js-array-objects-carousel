@@ -123,7 +123,7 @@ btnLeft.addEventListener("click", ()=>{
   currentI--
 
   if (currentI < 0) {
-    currentI = 4;
+    currentI = images.length - 1;
   }
 
   imageMain[currentI].classList.add('active');

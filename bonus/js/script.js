@@ -56,7 +56,11 @@ const goPrevImage = () =>{
 
   imageMain[currentI].classList.add('active');
   imageIndex[currentI].classList.add('active');
-  
+}
+
+const autoplay = () =>{
+  if (leftToRight) return goNextImage();
+  else return goPrevImage();
 }
 
 const images = [
@@ -128,9 +132,9 @@ imageIndex[currentI].classList.add('active');
 
 // # Gestione carousel con timing 
 
-let imagesChange = setInterval(goNextImage, 3000)
+let imagesChange = setInterval(autoplay, 3000)
 
-//# Gestione carousel con bottoni
+//# Gestione carousel con bottoni left e right
 
 // recupero i bottoni
 const btnRight = document.getElementById('right-btn');
@@ -146,7 +150,7 @@ btnRight.addEventListener("click", ()=>{
 
   // faccio ripartire l'intervallo averlo resettato al click sul bottone
 
-  imagesChange = setInterval(goNextImage, 3000);
+  imagesChange = setInterval(autoplay, 3000);
 
 })
 
@@ -158,11 +162,45 @@ btnLeft.addEventListener("click", ()=>{
 
   // faccio ripartire l'intervallo averlo resettato al click sul bottone
 
-  imagesChange = setInterval(goNextImage, 3000);
+  imagesChange = setInterval(autoplay, 3000);
 
 })
 
+//# Gestione carousel con bottoni autoplay e reverse
+
+// recupero i bottoni
+const btnAutoplay = document.getElementById("autoplay-btn");
+const btnReverse = document.getElementById("reverse-btn");
+
+// dichiaro variabili flag di appoggio
+let isPlayed = true;
+let leftToRight = true;
+
+// Gestisco il click sul bottone autoplay
+btnAutoplay.addEventListener("click", ()=>{
+  
+  if (isPlayed) {
+    btnAutoplay.innerText = "RIPRENDI";
+    clearInterval(imagesChange);
+  } else {
+    btnAutoplay.innerText = "FERMA AUTOPLAY";
+    imagesChange = setInterval(autoplay, 3000);
+  }
+  isPlayed = !isPlayed;
+})
+
+// Gestisco il click sul bottone reverse
+btnReverse.addEventListener("click", ()=>{
+
+  leftToRight = !leftToRight;
+  if (isPlayed) {
+    clearInterval(imagesChange);
+    imagesChange = setInterval(autoplay, 3000);
+  }
+})
+
 // # Thumbnails
+
 imageIndex.forEach((thumbnail, index)=>{
   thumbnail.addEventListener("click", ()=>{
 

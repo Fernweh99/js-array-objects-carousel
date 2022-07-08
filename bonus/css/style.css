@@ -38,6 +38,13 @@ img {
   left: 30px;
 }
 
+.wrapper-btn {
+  position: absolute;
+  bottom: -40px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
 
 /* carousel-main */
 #carousel-main {

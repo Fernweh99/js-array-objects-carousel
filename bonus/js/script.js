@@ -10,23 +10,53 @@ Aggiungere bottoni di start/stop e di inversione del meccanismo di autoplay.
 
 // # Function
 
-const createImageCarousel = (image, i, boolean) => {
+const createImageCarousel = (image, boolean) => {
   let itemsCarousel = "";
 
   if (boolean) {
     itemsCarousel = `
     <div class="carousel-image">
-    <img src="${image.url}" alt="image-${i}">
+    <img src="${image.url}" alt="image-${image.title}">
     <h3 class="title-image">${image.title}</h3>
     <p class="description-image">${image.description}</p>
     </div>`
     
   } else {
     itemsCarousel = `
-    <img src="${image.url}" alt="image-${i}">`
+    <img src="${image.url}" alt="image-${image.title}">`
   }
 
   return itemsCarousel;
+}
+
+const goNextImage = () =>{
+  imageMain[currentI].classList.remove('active');
+  imageIndex[currentI].classList.remove('active');
+
+  currentI++
+
+  if (currentI == images.length) {
+    currentI = 0;
+  }
+
+  imageMain[currentI].classList.add('active');
+  imageIndex[currentI].classList.add('active');
+}
+
+const goPrevImage = () =>{
+
+  imageMain[currentI].classList.remove('active');
+  imageIndex[currentI].classList.remove('active');
+
+  currentI--
+
+  if (currentI < 0) {
+    currentI = images.length - 1;
+  }
+
+  imageMain[currentI].classList.add('active');
+  imageIndex[currentI].classList.add('active');
+  
 }
 
 const images = [
@@ -68,24 +98,21 @@ const images = [
 
 const carouselMain = document.getElementById('carousel-main'); 
 const carouselIndex = document.getElementById('carousel-index');
-// mi preparo per stampare le immagini principali del carousel
+
+// mi preparo per stampare le immagini del carousel
 let itemsCarouselMain = "";
-
-images.forEach((image, i) => {
-
-  itemsCarouselMain += createImageCarousel(image, i, true);
-
-})
-carouselMain.innerHTML = itemsCarouselMain;
-
-//mi preparo per stampare le immagini index del carousel
 let itemsCarouselIndex = "";
 
-images.forEach((image, i) => {
+images.forEach((image) => {
 
-  itemsCarouselIndex += createImageCarousel(image, i, false);
+  itemsCarouselMain += createImageCarousel(image, true);
+
+  itemsCarouselIndex += createImageCarousel(image, false);
 
 })
+
+carouselMain.innerHTML = itemsCarouselMain;
+
 carouselIndex.innerHTML = itemsCarouselIndex;
 
 // # Partenza carousel
@@ -101,21 +128,7 @@ imageIndex[currentI].classList.add('active');
 
 // # Gestione carousel con timing 
 
-let imagesChange = setInterval(()=>{
-
-  imageMain[currentI].classList.remove('active');
-  imageIndex[currentI].classList.remove('active');
-
-  currentI++
-
-  if (currentI == images.length) {
-    currentI = 0;
-  }
-
-  imageMain[currentI].classList.add('active');
-  imageIndex[currentI].classList.add('active');
-
-}, 3000)
+let imagesChange = setInterval(goNextImage, 3000)
 
 //# Gestione carousel con bottoni
 
@@ -129,35 +142,11 @@ btnRight.addEventListener("click", ()=>{
 
   clearInterval(imagesChange);
 
-  imageMain[currentI].classList.remove('active');
-  imageIndex[currentI].classList.remove('active');
-
-  currentI++
-
-  if (currentI == images.length) {
-    currentI = 0;
-  }
-
-  imageMain[currentI].classList.add('active');
-  imageIndex[currentI].classList.add('active');
+  goNextImage();
 
   // faccio ripartire l'intervallo averlo resettato al click sul bottone
 
-  imagesChange = setInterval(()=>{
-
-    imageMain[currentI].classList.remove('active');
-    imageIndex[currentI].classList.remove('active');
-  
-    currentI++
-  
-    if (currentI == images.length) {
-      currentI = 0;
-    }
-  
-    imageMain[currentI].classList.add('active');
-    imageIndex[currentI].classList.add('active');
-  
-  }, 3000)
+  imagesChange = setInterval(goNextImage, 3000);
 
 })
 
@@ -165,35 +154,11 @@ btnLeft.addEventListener("click", ()=>{
 
   clearInterval(imagesChange);
 
-  imageMain[currentI].classList.remove('active');
-  imageIndex[currentI].classList.remove('active');
-
-  currentI--
-
-  if (currentI < 0) {
-    currentI = images.length - 1;
-  }
-
-  imageMain[currentI].classList.add('active');
-  imageIndex[currentI].classList.add('active');
+  goPrevImage();
 
   // faccio ripartire l'intervallo averlo resettato al click sul bottone
 
-  imagesChange = setInterval(()=>{
-
-    imageMain[currentI].classList.remove('active');
-    imageIndex[currentI].classList.remove('active');
-  
-    currentI++
-  
-    if (currentI == images.length) {
-      currentI = 0;
-    }
-  
-    imageMain[currentI].classList.add('active');
-    imageIndex[currentI].classList.add('active');
-  
-  }, 3000)
+  imagesChange = setInterval(goNextImage, 3000);
 
 })
 

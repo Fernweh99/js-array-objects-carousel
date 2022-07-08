@@ -142,29 +142,9 @@ const btnLeft = document.getElementById('left-btn');
 
 // Aggiungo l'evento ai bottoni
 
-btnRight.addEventListener("click", ()=>{
+btnRight.addEventListener("click", goNextImage)
 
-  clearInterval(imagesChange);
-
-  goNextImage();
-
-  // faccio ripartire l'intervallo averlo resettato al click sul bottone
-
-  imagesChange = setInterval(autoplay, 3000);
-
-})
-
-btnLeft.addEventListener("click", ()=>{
-
-  clearInterval(imagesChange);
-
-  goPrevImage();
-
-  // faccio ripartire l'intervallo averlo resettato al click sul bottone
-
-  imagesChange = setInterval(autoplay, 3000);
-
-})
+btnLeft.addEventListener("click", goPrevImage);
 
 //# Gestione carousel con bottoni autoplay e reverse
 
